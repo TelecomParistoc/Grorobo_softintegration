@@ -1,7 +1,4 @@
-#define BLACK_SENSORS_SIDE 0
-#define BLACK_SENSOR_MIDDLE 2
-#define YELLOW_SENSORS_SIDE 6
-#define YELLOW_SENSOR_MIDDLE 5
+#include "include/sensor_thread.hpp"
 
 #include <wiringPi.h>
 
