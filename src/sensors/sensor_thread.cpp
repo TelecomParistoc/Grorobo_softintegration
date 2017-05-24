@@ -35,20 +35,18 @@ void Sensor_Thread::init()
 	_pull_up[_sensor_descriptions_to_ids[YELLOW_SENSORS_SIDE]] = true;
 	_pull_up[_sensor_descriptions_to_ids[YELLOW_SENSOR_MIDDLE]] = true;
 
-	Board_Singleton& singleton = Board_Singleton::instance();
-	Board_Singleton test(singleton);
-	Board_Singleton test2 = singleton;
+	Board_Singleton& board = Board_Singleton::instance();
 	for(int i=0; i<N_Sensors; i++)
 	{
 		_state[i] = false;
 		if(!_pull_up[i])
 		{
-			singleton.add_digital_input_pin(_pin_id[i], false);
+			board.add_digital_input_pin(_pin_id[i], false);
 			_cur_scale_pin[i] = 0;
 		}
 		else
 		{
-			singleton.add_digital_input_pin(_pin_id[i], true);
+			board.add_digital_input_pin(_pin_id[i], true);
 			_cur_scale_pin[i] = To_Keep_For_Majority;
 		}
 	}
@@ -105,6 +103,8 @@ const std::vector<bool>& Sensor_Thread::get_active_sensors()
 
 void Sensor_Thread::run()
 {
+	Board_Singleton& board = Board_Singleton::instance();
+
 	_stop = false;
 	while(!_stop)
 	{
@@ -113,7 +113,7 @@ void Sensor_Thread::run()
 
 		for(int i=0; i<N_Sensors; i++)
 		{
-			if(digitalRead(_pin_id[i]))
+			if(board.digital_read(_pin_id[i]))
 			{
 			 	if(_cur_scale_pin[i]+1<To_Keep_For_Majority)
 					_cur_scale_pin[i]++;

@@ -3,16 +3,6 @@
 #include <wiringPi.h>
 
 
-Board_Singleton::Board_Singleton()
-{
-    init();
-}
-
-void Board_Singleton::init()
-{
-    wiringPiSetup();
-}
-
 void Board_Singleton::add_digital_input_pin(int pin, bool pull_up)
 {
     pinMode(pin, INPUT);
@@ -25,4 +15,25 @@ void Board_Singleton::add_digital_input_pin(int pin, bool pull_up)
 void Board_Singleton::add_digital_output_pin(int pin)
 {
     pinMode(pin, OUTPUT);
+}
+
+bool Board_Singleton::digital_read(int pin)
+{
+    return digitalRead(pin);
+}
+
+void Board_Singleton::digital_write(int pin, bool val)
+{
+    digitalWrite(pin, val);
+}
+
+
+Board_Singleton::Board_Singleton()
+{
+    init();
+}
+
+void Board_Singleton::init()
+{
+    wiringPiSetup();
 }
