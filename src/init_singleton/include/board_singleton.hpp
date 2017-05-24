@@ -2,6 +2,9 @@
 #define BOARD_SINGLETON_HPP
 
 
+#include "singleton.hpp"
+
+
 class Board_Singleton : public Singleton<Board_Singleton>
 {
     public:

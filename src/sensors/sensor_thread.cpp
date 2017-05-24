@@ -35,9 +35,9 @@ void Sensor_Thread::init()
 	_pull_up[_sensor_descriptions_to_ids[YELLOW_SENSORS_SIDE]] = true;
 	_pull_up[_sensor_descriptions_to_ids[YELLOW_SENSOR_MIDDLE]] = true;
 
-	Init_Singleton& singleton = Init_Singleton::instance();
-	Init_Singleton test(singleton);
-	Init_Singleton test2 = singleton;
+	Board_Singleton& singleton = Board_Singleton::instance();
+	Board_Singleton test(singleton);
+	Board_Singleton test2 = singleton;
 	for(int i=0; i<N_Sensors; i++)
 	{
 		_state[i] = false;
