@@ -150,7 +150,6 @@ void Sensor_Thread::run()
 			}
 			_functions_mutex.unlock();
 		}
-		usleep(1000000);
 	}
 }
 

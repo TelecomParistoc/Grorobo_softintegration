@@ -12,7 +12,7 @@
 #define YELLOW_SENSOR_MIDDLE 5
 
 #define N_Sensors 4
-#define To_Keep_For_Majority 8
+#define To_Keep_For_Majority 4
 
 
 class Sensor_Thread
