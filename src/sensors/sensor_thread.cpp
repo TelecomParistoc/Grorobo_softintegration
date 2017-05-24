@@ -1,4 +1,4 @@
-#include "init_singleton/include/board_singleton.hpp"
+#include "board_singleton/include/board_singleton.hpp"
 #include "include/sensor_thread.hpp"
 
 #include <unistd.h>

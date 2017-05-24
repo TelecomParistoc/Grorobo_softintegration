@@ -1,4 +1,4 @@
-SRC_DIRS = ../../src/sensors
+SRC_DIRS = ../../src/sensors ../../src/board_singleton
 OBJ_DIRS = $(addsuffix /obj, $(SRC_DIRS))
 OBJS = $(addsuffix /obj/*.o, $(SRC_DIRS))
 INCLUDES = $(addprefix -I, $(addsuffix /include, $(SRC_DIRS)))

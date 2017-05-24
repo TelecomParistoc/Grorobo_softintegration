@@ -13,11 +13,25 @@ class Singleton
     	Singleton& operator=(const Singleton<T>& arg) = delete;
     	Singleton& operator=(const Singleton<T>&& arg) = delete;
 
-    private:
+    protected:
         Singleton();
 
+    private:
         static T _instance;
 };
+
+template <typename T>
+T Singleton<T>::_instance;
+
+template <typename T>
+T& Singleton<T>::instance()
+{
+	return _instance;
+}
+
+template <typename T>
+Singleton<T>::Singleton()
+{}
 
 
 #endif
