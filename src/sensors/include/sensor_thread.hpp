@@ -2,6 +2,8 @@
 #include <string>
 #include <vector>
 #include <thread>
+#include <mutex>
+#include <map>
 
 
 #define BLACK_SENSORS_SIDE 0
@@ -30,9 +32,9 @@ class Sensor_Thread
         //sets the function that is called when a sensor state switches
         void set_sensor_callback(const std::function<void(int, bool)>& callback);
         //returns true if desired sensor is triggered, false otherwise, index is position in sensor array
-        bool read_obstacle_sensor_from_id(int index);
+        bool read_obstacle_sensor_from_id(int index) const;
         //returns true if desired sensor is triggered, false otherwise, index is sensor description (like BLACK_SENSOR_MIDDLE)
-        bool read_obstacle_sensor_from_description(int desc);
+        bool read_obstacle_sensor_from_description(int desc) const;
         //returns mapping of current activated sensors
         const std::vector<bool>& get_active_sensors();
 
@@ -45,6 +47,7 @@ class Sensor_Thread
         std::vector<bool> _obstacle_sensors_activated;
         std::vector<bool> _tmp_sensors;
         std::array<int, N_Sensors> _cur_scale_pin;
+        std::array<bool, N_Sensors> _pull_up;
         std::array<bool, N_Sensors> _state;
         std::array<int, N_Sensors> _pin_id;
 
@@ -55,6 +58,6 @@ class Sensor_Thread
 
         void run();
 
-        static std::map<int, std::string> sensor_names;
-        static std::map<int, int> sensor_descriptions_to_ids;
+        static std::map<int, std::string> _sensor_names;
+        static std::map<int, int> _sensor_descriptions_to_ids;
 };

@@ -1,5 +1,6 @@
 #include "sensor_thread.hpp"
 
+#include <unistd.h>
 #include <iostream>
 
 

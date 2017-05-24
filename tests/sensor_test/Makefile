@@ -1,4 +1,5 @@
 SRC_DIRS = ../../src/sensors
+OBJ_DIRS = $(addsuffix /obj, $(SRC_DIRS))
 OBJS = $(addsuffix /obj/*.o, $(SRC_DIRS))
 INCLUDES = $(addprefix -I, $(addsuffix /include, $(SRC_DIRS)))
 SRC = test.cpp
@@ -22,4 +23,8 @@ run: $(EXEC)
 	./$(EXEC)
 
 clean :
+	@rm -rf $(EXEC)
+
+clean-all :
+	@rm -rf $(OBJ_DIRS)
 	@rm -rf $(EXEC)
