@@ -122,7 +122,7 @@ void Sensor_Thread::run()
 				if(_cur_scale_pin[i]>0)
 					_cur_scale_pin[i]--;
 
-			bool next_state = (!_pull_up[i] && _cur_scale_pin[i]*2>=To_Keep_For_Majority) || (_pull_up[i] && _cur_scale_pin[i]*2<To_Keep_For_Majority);
+			bool next_state = (!_pull_up[i] && _cur_scale_pin[i]*4>=3*To_Keep_For_Majority) || (_pull_up[i] && _cur_scale_pin[i]*4<To_Keep_For_Majority); //threshold effect
 			if(next_state != _state[i])
 			{
 				recompute = true;
