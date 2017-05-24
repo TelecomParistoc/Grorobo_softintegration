@@ -1,5 +1,5 @@
 OBJ_DIR = obj
-SRC_DIR = . ../../init_singleton
+SRC_DIR = .
 SRC = $(wildcard $(SRC_DIR)/*.cpp)
 OBJ := $(patsubst %.cpp, $(OBJ_DIR)/%.o, $(notdir $(SRC)))
 

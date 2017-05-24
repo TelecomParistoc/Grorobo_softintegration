@@ -1,3 +1,7 @@
+#ifndef SENSOR_THREAD_HPP
+#define SENSOR_THREAD_HPP
+
+
 #include <functional>
 #include <string>
 #include <vector>
@@ -61,3 +65,6 @@ class Sensor_Thread
         static std::map<int, std::string> _sensor_names;
         static std::map<int, int> _sensor_descriptions_to_ids;
 };
+
+
+#endif

@@ -1,6 +1,6 @@
+#include "init_singleton/include/board_singleton.hpp"
 #include "include/sensor_thread.hpp"
 
-#include <wiringPi.h>
 #include <unistd.h>
 #include <cassert>
 
@@ -25,8 +25,6 @@ Sensor_Thread::Sensor_Thread(const std::function<void(int)>& obstacle_callback, 
 
 void Sensor_Thread::init()
 {
-	wiringPiSetup();
-
 	_pin_id[_sensor_descriptions_to_ids[BLACK_SENSORS_SIDE]] = BLACK_SENSORS_SIDE;
 	_pin_id[_sensor_descriptions_to_ids[BLACK_SENSOR_MIDDLE]] = BLACK_SENSOR_MIDDLE;
 	_pin_id[_sensor_descriptions_to_ids[YELLOW_SENSORS_SIDE]] = YELLOW_SENSORS_SIDE;
@@ -37,18 +35,20 @@ void Sensor_Thread::init()
 	_pull_up[_sensor_descriptions_to_ids[YELLOW_SENSORS_SIDE]] = true;
 	_pull_up[_sensor_descriptions_to_ids[YELLOW_SENSOR_MIDDLE]] = true;
 
+	Init_Singleton& singleton = Init_Singleton::instance();
+	Init_Singleton test(singleton);
+	Init_Singleton test2 = singleton;
 	for(int i=0; i<N_Sensors; i++)
 	{
-		pinMode(_pin_id[i], INPUT);
 		_state[i] = false;
 		if(!_pull_up[i])
 		{
-			pullUpDnControl(_pin_id[i], PUD_DOWN);
+			singleton.add_digital_input_pin(_pin_id[i], false);
 			_cur_scale_pin[i] = 0;
 		}
 		else
 		{
-			pullUpDnControl(_pin_id[i], PUD_UP);
+			singleton.add_digital_input_pin(_pin_id[i], true);
 			_cur_scale_pin[i] = To_Keep_For_Majority;
 		}
 	}
