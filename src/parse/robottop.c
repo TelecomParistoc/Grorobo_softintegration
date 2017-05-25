@@ -12,7 +12,7 @@ int main()
     //ouvre le fichier et la tache sera stocké dans action
     char c;
     FILE* file = NULL;
-    file = fopen("command_grobot_blue.txt", "r");
+    file = fopen("command_grobot_homolo.txt", "r");
     c = fgetc(file);
     while(c != EOF && c != '\0')
     {

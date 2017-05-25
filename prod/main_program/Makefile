@@ -6,9 +6,9 @@ SRC = main.cpp
 
 CC = g++
 CFLAGS = -Wall -Werror -Wextra -O1 -std=c++14 $(INCLUDES) -g
-LDFLAGS = -lwiringPi -lpthread
+LDFLAGS = -lwiringPi -lpthread -lrobot -lrobotdriver
 
-EXEC = test
+EXEC = main
 
 
 .PHONY: $(SRC_DIRS)

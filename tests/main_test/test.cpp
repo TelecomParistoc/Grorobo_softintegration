@@ -65,6 +65,7 @@ int main()
     {
         std::cout<<"[+] Launching final action"<<std::endl;
         finishAction();
+	sleep(4);
     }
 
     std::cout<<"[-] Time elapsed, ending"<<std::endl;

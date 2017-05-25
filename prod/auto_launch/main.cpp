@@ -21,8 +21,8 @@ int main()
     int current_state = 0;
     while(true)
     {
-        system(("gpio read "+test_or_game_pin+" > tmp").c_str());
-        std::ifstream ifs("tmp", std::ios::in);
+        system(("gpio read "+test_or_game_pin+" > /tmp/gpio_state").c_str());
+        std::ifstream ifs("/tmp/gpio_state", std::ios::in);
         ifs>>current_state;
 	
 	std::cout<<"Read "<<current_state<<" state"<<std::endl;
