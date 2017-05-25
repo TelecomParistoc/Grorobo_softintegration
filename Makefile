@@ -16,4 +16,6 @@ run: $(TARGET_DIRS)
 
 clean :
 	@rm -rf $(TARGET_FILES)
-
+	make -C src clean
+	make -C prod clean
+	make -C tests clean

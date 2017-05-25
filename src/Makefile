@@ -1,4 +1,4 @@
-SRC_DIRS = board_singleton collision_behaviour pinsToit sensors utils
+SRC_DIRS = board_singleton collision_behaviour pinsToit sensors utils parse
 OBJ_DIRS = $(addsuffix /obj, $(SRC_DIRS))
 
 clean:

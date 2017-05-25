@@ -10,6 +10,7 @@
 #include "/home/pi/main_config.h" //TODO : change to a relative path
 
 
+
 int main()
 {
     std::string test_or_game_pin;

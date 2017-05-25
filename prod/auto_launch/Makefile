@@ -7,7 +7,7 @@ LDFLAGS =
 EXEC = robotMain
 
 
-$(EXEC):
+$(EXEC): $(SRC)
 	$(CC) -o $@ $(SRC) $(CFLAGS) $(LDFLAGS)
 
 run: $(EXEC)
