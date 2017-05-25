@@ -5,6 +5,8 @@
 #include <cassert>
 
 
+#ifdef BIG
+
 std::map<int, std::string> Sensor_Thread::_sensor_names = {{BLACK_SENSORS_SIDE, "BLACK_SENSORS_SIDE"},
 														  {BLACK_SENSOR_MIDDLE, "BLACK_SENSOR_MIDDLE"},
 														  {YELLOW_SENSORS_SIDE, "YELLOW_SENSORS_SIDE"},
@@ -14,6 +16,19 @@ std::map<int, int> Sensor_Thread::_sensor_descriptions_to_ids = {{BLACK_SENSORS_
 														  		{BLACK_SENSOR_MIDDLE, 1},
 														  		{YELLOW_SENSORS_SIDE, 2},
 														  		{YELLOW_SENSOR_MIDDLE, 3}};
+
+#else
+
+std::map<int, std::string> Sensor_Thread::_sensor_names = {{BLACK_SENSOR_FRONT, "BLACK_SENSOR_FRONT"},
+														  {BLACK_SENSOR_BACK, "BLACK_SENSOR_BACK"},
+														  {BLACK_SENSOR_FRONT_BOTTOM, "BLACK_SENSOR_FRONT_BOTTOM"}};
+
+std::map<int, int> Sensor_Thread::_sensor_descriptions_to_ids = {{BLACK_SENSOR_FRONT, 0},
+														  		{BLACK_SENSOR_BACK, 1},
+														  		{BLACK_SENSOR_FRONT_BOTTOM, 2}};
+
+#endif
+
 
 Sensor_Thread::Sensor_Thread(const std::function<void(bool, bool)>& event_callback, const std::function<void(int)>& obstacle_callback, const std::function<void(int, bool)>& sensor_callback, bool _init) :
 	_sensor_callback(sensor_callback),
@@ -26,6 +41,8 @@ Sensor_Thread::Sensor_Thread(const std::function<void(bool, bool)>& event_callba
 
 void Sensor_Thread::init()
 {
+	#ifdef BIG
+
 	_pin_id[_sensor_descriptions_to_ids[BLACK_SENSORS_SIDE]] = BLACK_SENSORS_SIDE;
 	_pin_id[_sensor_descriptions_to_ids[BLACK_SENSOR_MIDDLE]] = BLACK_SENSOR_MIDDLE;
 	_pin_id[_sensor_descriptions_to_ids[YELLOW_SENSORS_SIDE]] = YELLOW_SENSORS_SIDE;
@@ -36,11 +53,26 @@ void Sensor_Thread::init()
 	_pull_up[_sensor_descriptions_to_ids[YELLOW_SENSORS_SIDE]] = true;
 	_pull_up[_sensor_descriptions_to_ids[YELLOW_SENSOR_MIDDLE]] = true;
 
-	_forward[_sensor_descriptions_to_ids[BLACK_SENSORS_SIDE]] = true;
-	_forward[_sensor_descriptions_to_ids[BLACK_SENSOR_MIDDLE]] = true;
-	_forward[_sensor_descriptions_to_ids[YELLOW_SENSORS_SIDE]] = false;
-	_forward[_sensor_descriptions_to_ids[YELLOW_SENSOR_MIDDLE]] = false;
+	_forward[_sensor_descriptions_to_ids[BLACK_SENSORS_SIDE]] = 1;
+	_forward[_sensor_descriptions_to_ids[BLACK_SENSOR_MIDDLE]] = 1;
+	_forward[_sensor_descriptions_to_ids[YELLOW_SENSORS_SIDE]] = 0;
+	_forward[_sensor_descriptions_to_ids[YELLOW_SENSOR_MIDDLE]] = 0;
 
+	#else
+
+	_pin_id[_sensor_descriptions_to_ids[BLACK_SENSOR_FRONT]] = BLACK_SENSOR_FRONT;
+	_pin_id[_sensor_descriptions_to_ids[BLACK_SENSOR_BACK]] = BLACK_SENSOR_BACK;
+	_pin_id[_sensor_descriptions_to_ids[BLACK_SENSOR_FRONT_BOTTOM]] = BLACK_SENSOR_FRONT_BOTTOM;
+
+	_pull_up[_sensor_descriptions_to_ids[BLACK_SENSOR_FRONT]] = false;
+	_pull_up[_sensor_descriptions_to_ids[BLACK_SENSOR_BACK]] = false;
+	_pull_up[_sensor_descriptions_to_ids[BLACK_SENSOR_FRONT_BOTTOM]] = false;
+
+	_forward[_sensor_descriptions_to_ids[BLACK_SENSOR_FRONT]] = 1;
+	_forward[_sensor_descriptions_to_ids[BLACK_SENSOR_BACK]] = 0;
+	_forward[_sensor_descriptions_to_ids[BLACK_SENSOR_FRONT_BOTTOM]] = -1;
+
+	#endif
 
 	Board_Singleton& board = Board_Singleton::instance();
 	for(int i=0; i<N_Sensors; i++)
@@ -170,9 +202,9 @@ void Sensor_Thread::run()
 					_sensor_callback(_pin_id[i], _state[i]);
 				if(_state[i] && _obstacle_callback)
 					_obstacle_callback(_pin_id[i]);
-				if(_state[i] && _forward[i])
+				if(_state[i] && _forward[i] == 1)
 					forward_sensor = true;
-				else if(_state[i] && !_forward[i])
+				else if(_state[i] && _forward[i] == 0)
 					backward_sensor = true;
 			}
 			_event_callback(forward_sensor, backward_sensor);

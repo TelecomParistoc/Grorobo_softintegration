@@ -7,9 +7,7 @@
 #include <sstream>
 #include <string>
 
-#include "/home/pi/main_config.h" //TODO : change to a relative path
-
-
+#include "/home/pi/main_config.h"
 
 int main()
 {
