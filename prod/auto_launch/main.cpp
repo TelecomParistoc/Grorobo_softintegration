@@ -15,6 +15,7 @@ int main()
     oss<<TEST_OR_GAME_PIN;
     test_or_game_pin = oss.str();
 
+    system("gpio mode "+test_or_game_pin+" up");
     int current_state = 0;
     while(true)
     {

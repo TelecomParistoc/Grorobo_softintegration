@@ -2,7 +2,7 @@
 #include "sensor_thread.hpp"
 
 #include <robotdriver/driver.h>
-#include <librobot/rocket.h>
+#include <librobot/robot.h>
 
 #include <unistd.h>
 #include <iostream>
@@ -24,17 +24,10 @@ void move_and_act()
     }
 }
 
-void clean()
-{
-    //TODO : stop
-}
-
 int main()
 {
-    clean(); //dirty : when this program is terminated, it should be called again in order to clean state
-
     Sensor_Thread collision_detection(std::bind(&Collision_Behaviour::react_on_obstacle, std::placeholders::_1, std::placeholders::_2));
-    initRoof();
+    //initRoof();
 
     setYellowLed(true);
     while(getStartJack())
@@ -68,15 +61,16 @@ int main()
         usleep(10000);
     }
 
-    stopRobot();
-    if(exit_fast)
-        return 0;
-
-    std::cout<<"[+] Launching final action"<<std::endl;
-    launchRocket();
-
-    sleep(4);
+    if(!exit_fast)
+    {
+        std::cout<<"[+] Launching final action"<<std::endl;
+        finishAction();
+    }
 
     std::cout<<"[-] Time elapsed, ending"<<std::endl;
+    stopGame();
+
+    collision_detection.stop();
+
     return 0;
 }

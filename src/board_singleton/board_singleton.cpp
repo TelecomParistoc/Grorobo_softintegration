@@ -1,6 +1,6 @@
 #include "include/board_singleton.hpp"
 
-#include <walkingdriver/driver.h>
+#include <librobot/robot.h>
 #include <wiringPi.h>
 #include <iostream>
 
@@ -37,10 +37,5 @@ Board_Singleton::Board_Singleton()
 
 void Board_Singleton::init()
 {
-    wiringPiSetup();
-    if(initAX12(BAUDRATE) < 0)
-    {
-		std::cerr<<"[-] Error during ax12 initialization"<<std::endl;
-		exit(1);
-	}
+    initRobot();
 }

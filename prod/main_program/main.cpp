@@ -2,6 +2,7 @@
 #include "sensor_thread.hpp"
 
 #include <robotdriver/driver.h>
+#include <librobot/robot.h>
 
 #include <unistd.h>
 #include <iostream>
@@ -23,17 +24,10 @@ void move_and_act()
     }
 }
 
-void clean()
-{
-    //TODO : stop
-}
-
 int main()
 {
-    clean(); //dirty : when this program is terminated, it should be called again in order to clean state
-
     Sensor_Thread collision_detection(std::bind(&Collision_Behaviour::react_on_obstacle, std::placeholders::_1, std::placeholders::_2));
-    initRoof();
+    //initRoof();
 
     setYellowLed(true);
     while(getStartJack())
@@ -50,28 +44,33 @@ int main()
     std::thread actions_move_thread(move_and_act);
 
     std::chrono::system_clock::time_point start = std::chrono::system_clock::now();
-    bool final_action_launched = false;
+    bool exit_fast = false;
     while(true)
     {
         int elapsed = time_elapsed_millis(start);
         if(elapsed > MAX_GAME_LENGTH_MILLIS) // game is over
             break;
-        else if(elapsed > FINAL_ACTION_DELAY_MILLIS && !final_action_launched)
-        {
-            std::cout<<"[+] Launching final action"<<std::endl;
-            final_action_launched = true;
-            //TODO : ax12-move
-        }
 
         if(!getStartJack())
         {
             std::cout<<"[-] Jack pushed, ending"<<std::endl;
-            std::terminate();
+            exit_fast = true;
+            break;
         }
 
         usleep(10000);
     }
 
+    if(!exit_fast)
+    {
+        std::cout<<"[+] Launching final action"<<std::endl;
+        finishAction();
+    }
+
     std::cout<<"[-] Time elapsed, ending"<<std::endl;
-    std::terminate();
+    stopGame();
+
+    collision_detection.stop();
+
+    return 0;
 }
