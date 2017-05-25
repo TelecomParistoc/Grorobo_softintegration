@@ -41,7 +41,7 @@ int main()
 
     std::cout<<"[+] Jack pulled, starting"<<std::endl;
     setYellowLed(false);
-    std::thread actions_move_thread(move_and_act);
+    std::thread actions_move_thread(std::bind(&moveAndAct));
 
     std::chrono::system_clock::time_point start = std::chrono::system_clock::now();
     bool exit_fast = false;
@@ -61,12 +61,20 @@ int main()
         usleep(10000);
     }
 
+    setRedLed(true);
+    setYellowLed(true);
+    setGreenLed(true);
     if(!exit_fast)
     {
         std::cout<<"[+] Launching final action"<<std::endl;
         finishAction();
-	    sleep(4);
     }
+
+    sleep(4);
+
+    setRedLed(false);
+    setYellowLed(false);
+    setGreenLed(false);
 
     std::cout<<"[-] Time elapsed, ending"<<std::endl;
     stopGame();

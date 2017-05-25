@@ -1,0 +1,59 @@
+#I Init
+#A avancer
+#R reculer
+#T tourner
+#F prendre les quatre cylindre dans la fusee
+#P prendre un cylindre 
+#S stock le cylindre
+#D descendre un cylindre
+
+## taille petit robot  208mm * 153,4mm
+## point 0,0 entre les deux équipes
+#——— INITIALISATION : robot place au coin (droite-loin quand en face des robots)
+I
+713  256  180
+# X=  3000/2 - (710+ largeur/2)   Y= 360 - longueur/2  angle180
+# ———
+
+## devant la fusee
+A
+350 170
+# X=1500 - 1150 Y= largeur/2
+T
+-900
+F
+
+A
+197 1100
+T
+900
+D
+
+A
+197 980
+T
+900
+D
+
+A
+197 870
+T
+900
+D
+
+A
+197 750
+T
+900
+D
+
+##prendre le cylindre en face du panier
+A
+1160 600
+T
+0
+P
+S
+A
+700 1710
+P

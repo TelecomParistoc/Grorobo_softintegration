@@ -5,11 +5,13 @@
 
 bool Collision_Behaviour::is_blocked = false;
 
-void Collision_Behaviour::react_on_obstacle(bool forward_sensors_activated, bool backward_sensors_activated)
+void Collision_Behaviour::react_on_obstacle(bool backward_sensors_activated, bool forward_sensors_activated)
 {
     int direction = getDirection();
     std::cout<<direction<<" "<<forward_sensors_activated<<" "<<backward_sensors_activated<<std::endl;
-
+    
+    if(forward_sensors_activated||backward_sensors_activated)
+        setYellowLed(true);
     if(direction == DIR_NONE)
         return;
 
@@ -17,6 +19,7 @@ void Collision_Behaviour::react_on_obstacle(bool forward_sensors_activated, bool
     {
         if((!forward_sensors_activated || direction != DIR_FORWARD) && (!backward_sensors_activated || direction != DIR_BACKWARD))
         {
+            std::cout<<"Unpausing"<<std::endl;
             unpause();
             setRedLed(false);
         }
@@ -24,6 +27,7 @@ void Collision_Behaviour::react_on_obstacle(bool forward_sensors_activated, bool
     else
         if((forward_sensors_activated && direction == DIR_FORWARD) || (backward_sensors_activated && direction == DIR_BACKWARD))
         {
+	    std::cout<<"Pausing"<<std::endl;
             pause();
             setRedLed(true);
         }

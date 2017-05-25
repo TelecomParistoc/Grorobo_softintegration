@@ -3,23 +3,25 @@
 #include <stdlib.h>
 
 #include <librobot/robot.h>
+#include "include/robottop.h"
 
-int main()
+
+void moveAndAct()
 {
     // init grobot motors
     initMoteurs();
 
     //ouvre le fichier et la tache sera stocké dans action
-    char c;
+    int c;
     FILE* file = NULL;
     file = fopen("command_grobot_homolo.txt", "r");
     c = fgetc(file);
-    while(c != EOF && c != '\0')
+    while(c != EOF)
     {
         if(readAndCall(file, c))
-	    return 0;
+	    return;
         c = fgetc(file);
     }
     fclose(file);
-    return 0;
+    return;
 }

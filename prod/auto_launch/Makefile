@@ -1,7 +1,7 @@
 SRC = main.cpp
 
 CC = g++
-CFLAGS = -Wall -Werror -Wextra -O1 -std=c++14 -g
+CFLAGS = -Wall -O1 -std=c++14 -g
 LDFLAGS =
 
 EXEC = robotMain

@@ -1,0 +1,36 @@
+## taille gros robot 310x400 (largeurxlongueur(déployé))
+##
+
+# INITIALISATION
+I
+# 3000/2-360/2 360/2 180
+1320 180 180
+
+A
+610 180
+T
+90
+X
+A
+610 1150
+T
+45
+A
+1250 1750
+T
+-90
+A
+1250 580
+T
+0
+Y
+
+
+
+# I initialisation : X Y angle
+# A avancer : X Y
+# R reculer : X Y
+# T tourner : angle
+# X deployer + faire tourner le rouleau
+# Y tirer les balles stockees (pendant combien de temps ? A TESTER)
+#

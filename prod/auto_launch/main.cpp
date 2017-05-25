@@ -43,7 +43,8 @@ int main()
             else
             {
                 std::cout<<"[+] Executing subprogram "<<MAIN_PROGRAM<<std::endl;
-                if(execl(MAIN_PROGRAM, MAIN_PROGRAM) < 0)
+		char* args[] = {MAIN_PROGRAM, NULL};
+                if(execv(MAIN_PROGRAM, args) < 0)
                 {
                     std::cerr<<"[-] Error during execl"<<std::endl;
                     exit(-1);
