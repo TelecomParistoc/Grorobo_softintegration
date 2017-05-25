@@ -35,6 +35,12 @@ void Sensor_Thread::init()
 	_pull_up[_sensor_descriptions_to_ids[YELLOW_SENSORS_SIDE]] = true;
 	_pull_up[_sensor_descriptions_to_ids[YELLOW_SENSOR_MIDDLE]] = true;
 
+	_forward[_sensor_descriptions_to_ids[BLACK_SENSORS_SIDE]] = true;
+	_forward[_sensor_descriptions_to_ids[BLACK_SENSOR_MIDDLE]] = true;
+	_forward[_sensor_descriptions_to_ids[YELLOW_SENSORS_SIDE]] = false;
+	_forward[_sensor_descriptions_to_ids[YELLOW_SENSOR_MIDDLE]] = false;
+
+
 	Board_Singleton& board = Board_Singleton::instance();
 	for(int i=0; i<N_Sensors; i++)
 	{
@@ -78,6 +84,13 @@ void Sensor_Thread::set_sensor_callback(const std::function<void(int, bool)>& ca
 {
 	_functions_mutex.lock();
 	_sensor_callback = callback;
+	_functions_mutex.unlock();
+}
+
+void set_simplest_event_callback(const std::function<void(bool, bool)>& callback)
+{
+	_functions_mutex.lock();
+	_event_callback = callback;
 	_functions_mutex.unlock();
 }
 
@@ -148,6 +161,7 @@ void Sensor_Thread::run()
 					_obstacle_sensors_activated.push_back(_pin_id[i]);
 			_update_mutex.unlock();
 
+			bool forward_sensor = false, backward_sensor = false;
 			_functions_mutex.lock();
 			for(int i : index)
 			{
@@ -155,7 +169,12 @@ void Sensor_Thread::run()
 					_sensor_callback(_pin_id[i], _state[i]);
 				if(_state[i] && _obstacle_callback)
 					_obstacle_callback(_pin_id[i]);
+				if(_state[i] && _forward[i])
+					forward_sensor = true;
+				else if(_state[i] && !_forward[i])
+					backward_sensor = true;
 			}
+			_event_callback(forward_sensor, backward_sensor);
 			_functions_mutex.unlock();
 		}
 	}

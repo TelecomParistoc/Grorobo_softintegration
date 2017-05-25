@@ -17,7 +17,7 @@
 class Sensor_Thread
 {
     public:
-        Sensor_Thread(const std::function<void(int)>& obstacle_callback = std::function<void(int)>(), const std::function<void(int, bool)>& sensor_callback = std::function<void(int, bool)>(), bool init = true);
+        Sensor_Thread(const std::function<void(bool, bool)>& event_callback = std::function<void(bool, bool)>(), const std::function<void(int)>& obstacle_callback = std::function<void(int)>(), const std::function<void(int, bool)>& sensor_callback = std::function<void(int, bool)>(), bool init = true);
 
         void init();
 
@@ -30,6 +30,8 @@ class Sensor_Thread
         void set_obstacle_callback(const std::function<void(int)>& callback);
         //sets the function that is called when a sensor state switches
         void set_sensor_callback(const std::function<void(int, bool)>& callback);
+        //sets the function that is called when a sensor state switches, with parameters that correspond to forward or backward sensors activated
+        void set_simplest_event_callback(const std::function<void(bool, bool)>& callback);
         //returns true if desired sensor is triggered, false otherwise, index is position in sensor array
         bool read_obstacle_sensor_from_id(int index) const;
         //returns true if desired sensor is triggered, false otherwise, index is sensor description (like BLACK_SENSOR_MIDDLE)
@@ -44,11 +46,13 @@ class Sensor_Thread
 
     private:
         std::function<void(int, bool)> _sensor_callback; //int parameter is description (like BLACK_SENSOR_MIDDLE) of sensor that switched, bool is if sensor is now triggered
-        std::function<void(int)> _obstacle_callback; //int parameter is description (like BLACK_SENSOR_MIDDLE) of sensor that detected switch
+        std::function<void(int)> _obstacle_callback;     //int parameter is description (like BLACK_SENSOR_MIDDLE) of sensor that detected switch
+        std::function<void(bool, bool)> _event_callback; //first bool parameter is number of forward sensors actvated, second is number of backward activated
         std::vector<bool> _obstacle_sensors_activated;
         std::vector<bool> _tmp_sensors;
         std::array<int, N_Sensors> _cur_scale_pin;
         std::array<bool, N_Sensors> _pull_up;
+        std::array<bool, N_Sensors> _forward;
         std::array<bool, N_Sensors> _state;
         std::array<int, N_Sensors> _pin_id;
 
