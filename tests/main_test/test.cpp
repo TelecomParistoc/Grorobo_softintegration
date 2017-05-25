@@ -50,28 +50,32 @@ int main()
     std::thread actions_move_thread(move_and_act);
 
     std::chrono::system_clock::time_point start = std::chrono::system_clock::now();
-    bool final_action_launched = false;
+    bool exit_fast = false;
     while(true)
     {
         int elapsed = time_elapsed_millis(start);
         if(elapsed > MAX_GAME_LENGTH_MILLIS) // game is over
             break;
-        else if(elapsed > FINAL_ACTION_DELAY_MILLIS && !final_action_launched)
-        {
-            std::cout<<"[+] Launching final action"<<std::endl;
-            final_action_launched = true;
-            //TODO : ax12-move
-        }
 
         if(!getStartJack())
         {
             std::cout<<"[-] Jack pushed, ending"<<std::endl;
-            std::terminate();
+            exit_fast = true;
+            break;
         }
 
         usleep(10000);
     }
 
+    stopRobot();
+    if(exit_fast)
+        return 0;
+
+    std::cout<<"[+] Launching final action"<<std::endl;
+    launch_rocket();
+
+    sleep(4);
+
     std::cout<<"[-] Time elapsed, ending"<<std::endl;
-    std::terminate();
+    return 0;
 }

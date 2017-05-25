@@ -17,16 +17,16 @@ void Collision_Behaviour::react_on_obstacle(bool forward_sensors_activated, bool
     {
         if((!forward_sensors_activated || direction != DIR_FORWARD) && (!backward_sensors_activated || direction != DIR_BACKWARD))
         {
-	    unpause();
-	    setRedLed(false);
-	}
+            unpause();
+            setRedLed(false);
+        }
     }
     else
         if((forward_sensors_activated && direction == DIR_FORWARD) || (backward_sensors_activated && direction == DIR_BACKWARD))
         {
-	    pause();
-	    setRedLed(true);
-	}
+            pause();
+            setRedLed(true);
+        }
 }
 
 void Collision_Behaviour::pause()
