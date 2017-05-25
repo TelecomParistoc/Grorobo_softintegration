@@ -1,6 +1,3 @@
-SRC_DIRS = .
-OBJ_DIRS = $(addsuffix /obj, $(SRC_DIRS))
-OBJS = $(addsuffix /obj/*.o, $(SRC_DIRS))
 SRC = main.cpp
 
 CC = g++
@@ -10,20 +7,11 @@ LDFLAGS =
 EXEC = auto_launch
 
 
-.PHONY: $(SRC_DIRS)
-
-$(EXEC): $(SRC_DIRS)
-	$(CC) -o $@ $(OBJS) $(SRC) $(CFLAGS) $(LDFLAGS)
-
-$(SRC_DIRS):
-	make -C $@ obj
+$(EXEC):
+	$(CC) -o $@ $(SRC) $(CFLAGS) $(LDFLAGS)
 
 run: $(EXEC)
 	./$(EXEC)
 
 clean :
-	@rm -rf $(EXEC)
-
-clean-all :
-	@rm -rf $(OBJ_DIRS)
 	@rm -rf $(EXEC)

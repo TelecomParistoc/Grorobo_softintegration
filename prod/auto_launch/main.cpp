@@ -1,7 +1,9 @@
 // Main program used by both robots
-
+#include <sys/wait.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <iostream>
+#include <fstream>
 #include <sstream>
 #include <string>
 
@@ -15,14 +17,15 @@ int main()
     oss<<TEST_OR_GAME_PIN;
     test_or_game_pin = oss.str();
 
-    system("gpio mode "+test_or_game_pin+" up");
+    system(("gpio mode "+test_or_game_pin+" up").c_str());
     int current_state = 0;
     while(true)
     {
-        system("gpio read "+test_or_game_pin+" > tmp");
+        system(("gpio read "+test_or_game_pin+" > tmp").c_str());
         std::ifstream ifs("tmp", std::ios::in);
         ifs>>current_state;
-
+	
+	std::cout<<"Read "<<current_state<<" state"<<std::endl;
         if(current_state) // game mode => main program used
         {
             int pid = fork();
@@ -32,13 +35,20 @@ int main()
                 exit(-1);
             }
             else if(pid)
-                wait(NULL);
+	    {
+		int status = 0;
+                wait(&status);
+		std::cout<<"[+] Program exited with status "<<status<<std::endl;
+	    }
             else
-                if(execl(MAIN_PROGRAM, 0) < 0)
+	    {
+		std::cout<<"[+] Executing subprogram "<<MAIN_PROGRAM<<std::endl;
+                if(execl(MAIN_PROGRAM, MAIN_PROGRAM) < 0)
                 {
                     std::cerr<<"[-] Error during execl"<<std::endl;
                     exit(-1);
                 }
+	    }
         }
 
         usleep(100000);
