@@ -4,7 +4,7 @@ CC = g++
 CFLAGS = -Wall -Werror -Wextra -O1 -std=c++14 -g
 LDFLAGS =
 
-EXEC = auto_launch
+EXEC = robotMain
 
 
 $(EXEC):
