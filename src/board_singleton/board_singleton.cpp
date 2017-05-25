@@ -36,4 +36,12 @@ Board_Singleton::Board_Singleton()
 void Board_Singleton::init()
 {
     wiringPiSetup();
+    if(initAX12(BAUDRATE) < 0)
+    {
+
+		fprintf(stderr, "[-] Error during ax12 initialization\n");
+
+		exit(1);
+
+	}
 }

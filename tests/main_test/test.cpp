@@ -2,6 +2,7 @@
 #include "sensor_thread.hpp"
 
 #include <robotdriver/driver.h>
+#include <librobot/rocket.h>
 
 #include <unistd.h>
 #include <iostream>
@@ -72,7 +73,7 @@ int main()
         return 0;
 
     std::cout<<"[+] Launching final action"<<std::endl;
-    launch_rocket();
+    launchRocket();
 
     sleep(4);
 

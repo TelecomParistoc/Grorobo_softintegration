@@ -19,7 +19,7 @@ void print_sensor_switch(int desc, bool state)
 
 int main()
 {
-    Sensor_Thread test(std::bind(print_obstacle, std::placeholders::_1), std::bind(print_sensor_switch, std::placeholders::_1, std::placeholders::_2));
+    Sensor_Thread test(std::function<void (bool, bool)>(), std::bind(print_obstacle, std::placeholders::_1), std::bind(print_sensor_switch, std::placeholders::_1, std::placeholders::_2));
 
     while(true)
         usleep(10000);
