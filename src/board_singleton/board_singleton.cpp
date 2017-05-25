@@ -1,6 +1,8 @@
 #include "include/board_singleton.hpp"
 
+#include <walkingdriver/driver.h>
 #include <wiringPi.h>
+#include <iostream>
 
 
 void Board_Singleton::add_digital_input_pin(int pin, bool pull_up)
@@ -38,10 +40,7 @@ void Board_Singleton::init()
     wiringPiSetup();
     if(initAX12(BAUDRATE) < 0)
     {
-
-		fprintf(stderr, "[-] Error during ax12 initialization\n");
-
+		std::cerr<<"[-] Error during ax12 initialization"<<std::endl;
 		exit(1);
-
 	}
 }

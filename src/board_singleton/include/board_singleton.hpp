@@ -4,6 +4,8 @@
 
 #include "singleton.hpp"
 
+#define BAUDRATE 115200
+
 
 class Board_Singleton : public Singleton<Board_Singleton>
 {
