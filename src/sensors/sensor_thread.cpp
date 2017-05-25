@@ -15,7 +15,7 @@ std::map<int, int> Sensor_Thread::_sensor_descriptions_to_ids = {{BLACK_SENSORS_
 														  		{YELLOW_SENSORS_SIDE, 2},
 														  		{YELLOW_SENSOR_MIDDLE, 3}};
 
-Sensor_Thread::Sensor_Thread(const std::function<void(int)>& obstacle_callback, const std::function<void(int, bool)>& sensor_callback, bool _init) :
+Sensor_Thread::Sensor_Thread(const std::function<void(bool, bool)>& event_callback, const std::function<void(int)>& obstacle_callback, const std::function<void(int, bool)>& sensor_callback, bool _init) :
 	_sensor_callback(sensor_callback),
 	_obstacle_callback(obstacle_callback)
 {
