@@ -1,26 +1,62 @@
 #include "sensor_thread.hpp"
+#include "fToit.h"
 
 #include <unistd.h>
 #include <iostream>
+#include <chrono>
 
 
-void print_obstacle(int desc)
+std::chrono::high_resolution_clock clock;
+
+int time_elapsed_millis(const std::chrono::time_point<clock>& beg)
 {
-    std::cout<<"Sensor "<<Sensor_Thread::sensor_name(desc)<<" detected obstacle"<<std::endl;
-}
-
-void print_sensor_switch(int desc, bool state)
-{
-    if(state)
-        std::cout<<"Sensor "<<Sensor_Thread::sensor_name(desc)<<" switched to high state"<<std::endl;
-    else
-        std::cout<<"Sensor "<<Sensor_Thread::sensor_name(desc)<<" switched to low state"<<std::endl;
+    return std::chrono::duration_cast<std::chrono::milliseconds>(clock::now() - beg).count();
 }
 
 int main()
 {
-    Sensor_Thread test(std::bind(print_obstacle, std::placeholders::_1), std::bind(print_sensor_switch, std::placeholders::_1, std::placeholders::_2));
+    Sensor_Thread collision_detection(callback_obstacle, callback_sensors);
+    init_roof();
 
-    while(true)
+    setYellowLed(true);
+    while(!getStartJack())
         usleep(10000);
+
+    std::cout<<"[+] Jack inserted"<<std::endl;
+    setGreenLed(true);
+
+    while(getStartJack())
+        usleep(10000);
+
+    std::cout<<"[+] Jack pulled, starting"<<std::endl;
+    setYellowLed(false);
+
+    std::chrono::time_point<clock> start;
+    bool final_action_launched = false;
+    while(true)
+    {
+        std::cout<<time_elapsed_millis(start)<<std::endl;
+        int elapsed = time_elapsed_millis(start);
+        if(elapsed > MAX_GAME_LENGTH_MILLIS) // game is over
+            break;
+        else if(elapsed > FINAL_ACTION_DELAY_MILLIS && !final_action_launched)
+        {
+            final_action_launched = true;
+            //TODO : ax12-move
+        }
+
+        if(getStartJack())
+        {
+            std::cout<<"[-] Jack pushed, ending"<<std::endl;
+            stop();
+            return 0;
+        }
+
+        usleep(10000);
+    }
+
+    std::cout<<"[-] Time elapsed, ending"<<std::endl;
+    stop();
+
+    return 0;
 }
