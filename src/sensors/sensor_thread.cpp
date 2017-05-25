@@ -101,6 +101,14 @@ const std::vector<bool>& Sensor_Thread::get_active_sensors()
 	return _tmp_sensors;
 }
 
+bool Sensor_Thread::is_blocked()
+{
+	_update_mutex.lock();
+	unsigned int ret = _obstacle_sensors_activated.size();
+	_update_mutex.unlock();
+	return (bool)ret;
+}
+
 void Sensor_Thread::run()
 {
 	Board_Singleton& board = Board_Singleton::instance();

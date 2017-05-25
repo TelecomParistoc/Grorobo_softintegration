@@ -9,13 +9,8 @@
 #include <mutex>
 #include <map>
 
+#include "/home/pi/main_config.h" //TODO : change to a relative path
 
-#define BLACK_SENSORS_SIDE 0
-#define BLACK_SENSOR_MIDDLE 2
-#define YELLOW_SENSORS_SIDE 6
-#define YELLOW_SENSOR_MIDDLE 5
-
-#define N_Sensors 4
 #define To_Keep_For_Majority 4
 
 
@@ -41,6 +36,8 @@ class Sensor_Thread
         bool read_obstacle_sensor_from_description(int desc) const;
         //returns mapping of current activated sensors
         const std::vector<bool>& get_active_sensors();
+        //returns true if robot is currently blocked, false otherwise
+        bool is_blocked();
 
         static const std::map<int, std::string>& sensor_names();
         static const std::string& sensor_name(int desc);
