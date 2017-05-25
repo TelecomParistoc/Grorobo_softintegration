@@ -8,11 +8,9 @@
 #include <chrono>
 
 
-std::chrono::high_resolution_clock clock;
-
-int time_elapsed_millis(const std::chrono::time_point<clock>& beg)
+int time_elapsed_millis(const std::chrono::system_clock::time_point& beg)
 {
-    return std::chrono::duration_cast<std::chrono::milliseconds>(clock::now() - beg).count();
+    return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - beg).count();
 }
 
 void move_and_act()
@@ -34,28 +32,27 @@ int main()
 {
     clean(); //dirty : when this program is terminated, it should be called again in order to clean state
 
-    Sensor_Thread collision_detection(std::bind(&Collision_Behaviour::react_on_obstacle));
+    Sensor_Thread collision_detection(std::bind(&Collision_Behaviour::react_on_obstacle, std::placeholders::_1, std::placeholders::_2));
     initRoof();
-    std::thread actions_move_thread(move_and_act);
 
     setYellowLed(true);
-    while(!getStartJack())
+    while(getStartJack())
         usleep(10000);
 
     std::cout<<"[+] Jack inserted"<<std::endl;
     setGreenLed(true);
 
-    while(getStartJack())
+    while(!getStartJack())
         usleep(10000);
 
     std::cout<<"[+] Jack pulled, starting"<<std::endl;
     setYellowLed(false);
+    std::thread actions_move_thread(move_and_act);
 
-    std::chrono::time_point<clock> start;
+    std::chrono::system_clock::time_point start = std::chrono::system_clock::now();
     bool final_action_launched = false;
     while(true)
     {
-        std::cout<<time_elapsed_millis(start)<<std::endl;
         int elapsed = time_elapsed_millis(start);
         if(elapsed > MAX_GAME_LENGTH_MILLIS) // game is over
             break;
@@ -66,7 +63,7 @@ int main()
             //TODO : ax12-move
         }
 
-        if(getStartJack())
+        if(!getStartJack())
         {
             std::cout<<"[-] Jack pushed, ending"<<std::endl;
             std::terminate();

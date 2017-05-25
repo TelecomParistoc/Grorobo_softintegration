@@ -17,7 +17,8 @@ std::map<int, int> Sensor_Thread::_sensor_descriptions_to_ids = {{BLACK_SENSORS_
 
 Sensor_Thread::Sensor_Thread(const std::function<void(bool, bool)>& event_callback, const std::function<void(int)>& obstacle_callback, const std::function<void(int, bool)>& sensor_callback, bool _init) :
 	_sensor_callback(sensor_callback),
-	_obstacle_callback(obstacle_callback)
+	_obstacle_callback(obstacle_callback),
+	_event_callback(event_callback)
 {
 	if(_init)
 		init();
@@ -87,7 +88,7 @@ void Sensor_Thread::set_sensor_callback(const std::function<void(int, bool)>& ca
 	_functions_mutex.unlock();
 }
 
-void set_simplest_event_callback(const std::function<void(bool, bool)>& callback)
+void Sensor_Thread::set_simplest_event_callback(const std::function<void(bool, bool)>& callback)
 {
 	_functions_mutex.lock();
 	_event_callback = callback;

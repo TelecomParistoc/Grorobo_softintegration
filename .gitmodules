@@ -1,3 +1,6 @@
 [submodule "src/pinsToit"]
 	path = src/pinsToit
 	url = git@github.com:TelecomParistoc/pinsToit.git
+[submodule "pinsToit"]
+	path = pinsToit
+	url = git@github.com:TelecomParistoc/pinsToit.git

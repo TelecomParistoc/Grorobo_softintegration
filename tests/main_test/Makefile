@@ -1,4 +1,4 @@
-SRC_DIRS = ../../src/sensors ../../src/board_singleton
+SRC_DIRS = ../../src/sensors ../../src/board_singleton ../../src/collision_behaviour
 OBJ_DIRS = $(addsuffix /obj, $(SRC_DIRS))
 OBJS = $(addsuffix /obj/*.o, $(SRC_DIRS))
 INCLUDES = $(addprefix -I, $(addsuffix /include, $(SRC_DIRS)))
@@ -6,7 +6,7 @@ SRC = test.cpp
 
 CC = g++
 CFLAGS = -Wall -Werror -Wextra -O1 -std=c++14 $(INCLUDES) -g
-LDFLAGS = -lwiringPi -lpthread
+LDFLAGS = -lwiringPi -lpthread -lrobotdriver
 
 EXEC = test
 
