@@ -35,7 +35,7 @@ int main()
     clean(); //dirty : when this program is terminated, it should be called again in order to clean state
 
     Sensor_Thread collision_detection(std::bind(&Collision_Behaviour::react_on_obstacle));
-    init_roof();
+    initRoof();
     std::thread actions_move_thread(move_and_act);
 
     setYellowLed(true);

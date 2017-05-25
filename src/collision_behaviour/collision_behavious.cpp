@@ -1,6 +1,5 @@
 #include "include/collision_behaviour.hpp"
-#include "movecontroller.h "
-#include "i2c-functions.h"
+#include <robotdriver/driver.h>
 
 
 bool collision_behaviour::is_blocked = false;
@@ -26,11 +25,11 @@ void Collision_Behaviour::react_on_obstacle(bool forward_sensors_activated, bool
 void Collision_Behaviour::pause()
 {
     is_blocked = true;
-    I2Cwrite8(0x12, 0xa6, 1);
+    stopRobot();
 }
 
 void Collision_Behaviour::unpause()
 {
     is_blocked = false;
-    I2Cwrite8(0x12, 0xa6, 0);
+    resumeRobot();
 }
