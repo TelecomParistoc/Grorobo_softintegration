@@ -24,8 +24,8 @@ int main()
         system(("gpio read "+test_or_game_pin+" > /tmp/gpio_state").c_str());
         std::ifstream ifs("/tmp/gpio_state", std::ios::in);
         ifs>>current_state;
-	
-	std::cout<<"Read "<<current_state<<" state"<<std::endl;
+
+	    std::cout<<"Read "<<current_state<<" state"<<std::endl;
         if(current_state) // game mode => main program used
         {
             int pid = fork();
@@ -35,20 +35,20 @@ int main()
                 exit(-1);
             }
             else if(pid)
-	    {
-		int status = 0;
+            {
+                int status = 0;
                 wait(&status);
-		std::cout<<"[+] Program exited with status "<<status<<std::endl;
-	    }
+                std::cout<<"[+] Program exited with status "<<status<<std::endl;
+            }
             else
-	    {
-		std::cout<<"[+] Executing subprogram "<<MAIN_PROGRAM<<std::endl;
+            {
+                std::cout<<"[+] Executing subprogram "<<MAIN_PROGRAM<<std::endl;
                 if(execl(MAIN_PROGRAM, MAIN_PROGRAM) < 0)
                 {
                     std::cerr<<"[-] Error during execl"<<std::endl;
                     exit(-1);
                 }
-	    }
+            }
         }
 
         usleep(100000);

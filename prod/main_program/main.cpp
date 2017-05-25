@@ -1,5 +1,6 @@
 #include "collision_behaviour.hpp"
 #include "sensor_thread.hpp"
+#include "robottop.h"
 
 #include <robotdriver/driver.h>
 #include <librobot/robot.h>
@@ -14,7 +15,7 @@ int time_elapsed_millis(const std::chrono::system_clock::time_point& beg)
     return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - beg).count();
 }
 
-void move_and_act()
+/*void move_and_act()
 {
     //TODO : add vincent code
     while(true)
@@ -22,12 +23,11 @@ void move_and_act()
         std::cout<<"We are moving in vincent code but not yet there"<<std::endl;
         sleep(1);
     }
-}
+}*/
 
 int main()
 {
     Sensor_Thread collision_detection(std::bind(&Collision_Behaviour::react_on_obstacle, std::placeholders::_1, std::placeholders::_2));
-    //initRoof();
 
     setYellowLed(true);
     while(getStartJack())
@@ -65,7 +65,7 @@ int main()
     {
         std::cout<<"[+] Launching final action"<<std::endl;
         finishAction();
-	sleep(4);
+	    sleep(4);
     }
 
     std::cout<<"[-] Time elapsed, ending"<<std::endl;
