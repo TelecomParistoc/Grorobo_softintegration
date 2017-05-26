@@ -4,7 +4,7 @@
 
 #include <librobot/robot.h>
 #include "include/robottop.h"
-
+#include "/home/pi/main_config.h"
 
 void moveAndAct()
 {

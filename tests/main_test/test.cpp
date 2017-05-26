@@ -1,5 +1,6 @@
 #include "collision_behaviour.hpp"
 #include "sensor_thread.hpp"
+#include "robottop.h"
 
 #include <robotdriver/driver.h>
 #include <librobot/robot.h>
@@ -31,7 +32,7 @@ int main()
 
     std::cout<<"[+] Jack pulled, starting"<<std::endl;
     setYellowLed(false);
-    std::thread actions_move_thread(move_and_act);
+    std::thread actions_move_thread(moveAndAct);
 
     std::chrono::system_clock::time_point start = std::chrono::system_clock::now();
     bool exit_fast = false;
