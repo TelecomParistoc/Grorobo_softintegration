@@ -1,0 +1,18 @@
+## taille gros robot 310x400 (largeurxlongueur(déployé))
+
+I
+# 3000/2-360/2 360/2 180
+1320 180 180
+F
+P
+S
+D
+
+# I initialisation : X Y angle
+# A avancer : X Y
+# R reculer : X Y
+# T tourner : angle
+# F Take four cylinders into rocket
+# P Take a cylinder
+# S Store a cylinder
+# D Release a cylinder
