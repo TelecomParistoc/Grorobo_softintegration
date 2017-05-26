@@ -34,7 +34,9 @@ int main()
     std::thread actions_move_thread(std::bind(&moveAndAct));
 
     std::chrono::system_clock::time_point start = std::chrono::system_clock::now();
+    #ifdef BIG
     bool exit_fast = false;
+    #endif
     while(true)
     {
         int elapsed = time_elapsed_millis(start);
@@ -44,7 +46,9 @@ int main()
         if(!getStartJack())
         {
             std::cout<<"[-] Jack pushed, ending"<<std::endl;
+            #ifdef BIG
             exit_fast = true;
+            #endif
             break;
         }
 
@@ -54,11 +58,14 @@ int main()
     setRedLed(true);
     setYellowLed(true);
     setGreenLed(true);
+    
+    #ifdef BIG
     if(!exit_fast)
     {
         std::cout<<"[+] Launching final action"<<std::endl;
         finishAction();
     }
+    #endif
 
     sleep(4);
 

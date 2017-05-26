@@ -8,8 +8,10 @@
 
 void moveAndAct()
 {
+    #ifdef BIG
     // init grobot motors
     initMoteurs();
+    #endif
 
     //ouvre le fichier et la tache sera stocké dans action
     int c;
