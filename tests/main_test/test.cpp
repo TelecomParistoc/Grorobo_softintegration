@@ -55,7 +55,9 @@ int main()
     if(!exit_fast)
     {
         std::cout<<"[+] Launching final action"<<std::endl;
-        finishAction();
+        #ifdef BIG
+	finishAction();
+	#endif
 	sleep(4);
     }
 
