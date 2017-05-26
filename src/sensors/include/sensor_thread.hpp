@@ -9,7 +9,7 @@
 #include <mutex>
 #include <map>
 
-#include "/home/pi/main_config.h" //TODO : change to a relative path
+#include "/home/pi/main_config.h"
 
 #define To_Keep_For_Majority 4
 
@@ -52,7 +52,7 @@ class Sensor_Thread
         std::vector<bool> _tmp_sensors;
         std::array<int, N_Sensors> _cur_scale_pin;
         std::array<bool, N_Sensors> _pull_up;
-        std::array<bool, N_Sensors> _forward;
+        std::array<int, N_Sensors> _forward;
         std::array<bool, N_Sensors> _state;
         std::array<int, N_Sensors> _pin_id;
 

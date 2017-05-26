@@ -15,16 +15,6 @@ int time_elapsed_millis(const std::chrono::system_clock::time_point& beg)
     return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - beg).count();
 }
 
-/*void move_and_act()
-{
-    //TODO : add vincent code
-    while(true)
-    {
-        std::cout<<"We are moving in vincent code but not yet there"<<std::endl;
-        sleep(1);
-    }
-}*/
-
 int main()
 {
     Sensor_Thread collision_detection(std::bind(&Collision_Behaviour::react_on_obstacle, std::placeholders::_1, std::placeholders::_2));

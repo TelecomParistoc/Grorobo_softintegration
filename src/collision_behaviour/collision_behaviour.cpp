@@ -1,17 +1,13 @@
 #include "include/collision_behaviour.hpp"
 #include <robotdriver/driver.h>
 
-#include <iostream>
 
 bool Collision_Behaviour::is_blocked = false;
 
 void Collision_Behaviour::react_on_obstacle(bool backward_sensors_activated, bool forward_sensors_activated)
 {
     int direction = getDirection();
-    std::cout<<direction<<" "<<forward_sensors_activated<<" "<<backward_sensors_activated<<std::endl;
-    
-    if(forward_sensors_activated||backward_sensors_activated)
-        setYellowLed(true);
+
     if(direction == DIR_NONE)
         return;
 
@@ -19,7 +15,6 @@ void Collision_Behaviour::react_on_obstacle(bool backward_sensors_activated, boo
     {
         if((!forward_sensors_activated || direction != DIR_FORWARD) && (!backward_sensors_activated || direction != DIR_BACKWARD))
         {
-            std::cout<<"Unpausing"<<std::endl;
             unpause();
             setRedLed(false);
         }
@@ -27,7 +22,6 @@ void Collision_Behaviour::react_on_obstacle(bool backward_sensors_activated, boo
     else
         if((forward_sensors_activated && direction == DIR_FORWARD) || (backward_sensors_activated && direction == DIR_BACKWARD))
         {
-	    std::cout<<"Pausing"<<std::endl;
             pause();
             setRedLed(true);
         }
